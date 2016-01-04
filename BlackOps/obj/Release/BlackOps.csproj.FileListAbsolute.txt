@@ -1,9 +1,9 @@
 C:\Toolbox\BlackOps\BlackOps\bin\Release\BlackOps.exe.config
 C:\Toolbox\BlackOps\BlackOps\bin\Release\BlackOps.exe
 C:\Toolbox\BlackOps\BlackOps\bin\Release\BlackOps.pdb
+C:\Toolbox\BlackOps\BlackOps\obj\Release\BlackOps.csprojResolveAssemblyReference.cache
 C:\Toolbox\BlackOps\BlackOps\obj\Release\BlackOps.AppWatcher.resources
 C:\Toolbox\BlackOps\BlackOps\obj\Release\BlackOps.ProjectInstaller.resources
 C:\Toolbox\BlackOps\BlackOps\obj\Release\BlackOps.csproj.GenerateResource.Cache
 C:\Toolbox\BlackOps\BlackOps\obj\Release\BlackOps.exe
 C:\Toolbox\BlackOps\BlackOps\obj\Release\BlackOps.pdb
-C:\Toolbox\BlackOps\BlackOps\obj\Release\BlackOps.csprojResolveAssemblyReference.cache
