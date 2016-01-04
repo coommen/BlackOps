@@ -15,6 +15,9 @@ namespace BlackOps
     public partial class AppWatcher : ServiceBase
     {
         public System.Management.ManagementEventWatcher mgmtWtch;
+        public const String blockedApp = "javaws.exe";
+        public const String blockedUser = "ruben";
+
 
         public AppWatcher()
         {
@@ -26,7 +29,7 @@ namespace BlackOps
         protected override void OnStart(string[] args)
         {
             // EventLog.WriteEntry("Service Started", EventLogEntryType.Information);
-            mgmtWtch = new System.Management.ManagementEventWatcher("Select * From Win32_ProcessStartTrace where ProcessName='javaws.exe'");
+            mgmtWtch = new System.Management.ManagementEventWatcher("Select * From Win32_ProcessStartTrace");
             mgmtWtch.EventArrived += new System.Management.EventArrivedEventHandler(mgmtWtch_EventArrived);
             mgmtWtch.Start();
         }
@@ -51,7 +54,10 @@ namespace BlackOps
             #endregion
 
             EventLog.WriteEntry("Detected Process Start: " + processName + " Process ID:" + processID, EventLogEntryType.Warning);
-            stopProcessByID(Convert.ToInt32(processID));
+            if (processName== blockedApp)
+            { 
+                stopProcessByID(Convert.ToInt32(processID));
+            }
         }
 
         void stopProcessByID(int ID)
@@ -59,10 +65,18 @@ namespace BlackOps
             try
             {
                 Process process = Process.GetProcessById(ID);
-                String userid = process.StartInfo.UserName;
-                if (userid=="ruben_000")
+                String userid = GetProcessOwner(ID);
+                if (userid.Contains(blockedUser))
+                {
                     process.Kill();
-                EventLog.WriteEntry("Stopped Process: " + process.ProcessName + " Process ID:" + process.Id, EventLogEntryType.Warning);
+                    EventLog.WriteEntry("Stopped Process: " + process.ProcessName + " Process ID:" + process.Id, EventLogEntryType.Warning);
+                }
+                else
+                {
+                    EventLog.WriteEntry(String.Format("Process: {0}, Process ID: {1}, was started by {2} so it was not terminated",process.ProcessName ,process.Id, userid), EventLogEntryType.Warning);
+                }
+                  
+
             }
             catch(Exception ex)
             {
@@ -71,7 +85,27 @@ namespace BlackOps
             }
         }
 
-}
+        string GetProcessOwner(int processId)
+        {
+            string query = "Select * From Win32_Process Where ProcessID = " + processId;
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+            ManagementObjectCollection processList = searcher.Get();
+
+            foreach (ManagementObject obj in processList)
+            {
+                string[] argList = new string[] { string.Empty, string.Empty };
+                int returnVal = Convert.ToInt32(obj.InvokeMethod("GetOwner", argList));
+                if (returnVal == 0)
+                {
+                    // return DOMAIN\user
+                    return argList[1] + "\\" + argList[0];
+                }
+            }
+
+            return "NO OWNER";
+        }
+
+    }
 
 }
 
