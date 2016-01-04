@@ -7,6 +7,7 @@ using System.Linq;
 using System.Management;
 using System.ServiceProcess;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
@@ -15,7 +16,7 @@ namespace BlackOps
     public partial class AppWatcher : ServiceBase
     {
         public System.Management.ManagementEventWatcher mgmtWtch;
-        public const String blockedApp = "javaws.exe";
+        public const String blockedApp = @"java";
         public const String blockedUser = "ruben";
 
 
@@ -53,8 +54,8 @@ namespace BlackOps
             //}
             #endregion
 
-            EventLog.WriteEntry("Detected Process Start: " + processName + " Process ID:" + processID, EventLogEntryType.Warning);
-            if (processName== blockedApp)
+            //EventLog.WriteEntry("Detected Process Start: " + processName + " Process ID:" + processID, EventLogEntryType.Warning);
+            if (Matches(processName,blockedApp))
             { 
                 stopProcessByID(Convert.ToInt32(processID));
             }
@@ -105,6 +106,11 @@ namespace BlackOps
             return "NO OWNER";
         }
 
+        bool Matches(string str, string pattern)
+        {
+            Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+            return r.IsMatch(str);
+        }
     }
 
 }
