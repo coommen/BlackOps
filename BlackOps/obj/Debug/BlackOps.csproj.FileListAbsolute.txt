@@ -1,0 +1,8 @@
+C:\Toolbox\BlackOps\BlackOps\bin\Debug\BlackOps.exe.config
+C:\Toolbox\BlackOps\BlackOps\bin\Debug\BlackOps.exe
+C:\Toolbox\BlackOps\BlackOps\bin\Debug\BlackOps.pdb
+C:\Toolbox\BlackOps\BlackOps\obj\Debug\BlackOps.AppWatcher.resources
+C:\Toolbox\BlackOps\BlackOps\obj\Debug\BlackOps.ProjectInstaller.resources
+C:\Toolbox\BlackOps\BlackOps\obj\Debug\BlackOps.csproj.GenerateResource.Cache
+C:\Toolbox\BlackOps\BlackOps\obj\Debug\BlackOps.exe
+C:\Toolbox\BlackOps\BlackOps\obj\Debug\BlackOps.pdb
