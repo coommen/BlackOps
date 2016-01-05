@@ -18,7 +18,7 @@ namespace BlackOps
         public System.Management.ManagementEventWatcher mgmtWtch;
         public const String blockedApp = @"java";
         public const String blockedUser = "ruben";
-
+        public const String alertRecepient = ""; //TODO: Put the number here
 
         public AppWatcher()
         {
@@ -71,6 +71,7 @@ namespace BlackOps
                 {
                     process.Kill();
                     EventLog.WriteEntry("Stopped Process: " + process.ProcessName + " Process ID:" + process.Id, EventLogEntryType.Warning);
+                    TextBelt.SendText(alertRecepient, "Attempt to start process stopped!",delegate (String nop){ });
                 }
                 else
                 {
